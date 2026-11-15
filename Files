@@ -1,0 +1,426 @@
+/-
+Assembled by AxiomProver.
+-/
+module
+
+public import Formalization.Analytic.Defs
+public import Formalization.Analytic.Equidistribution
+public import Formalization.Analytic.PrimeNumberTheoremAP
+public import Formalization.Analytic.PrimePairs
+public import Formalization.Analytic.PrimesTranslatedSquares
+public import Formalization.Analytic.SqrtPrimeEquidistribution
+public import Formalization.Analytic.WeylCriterion
+public import Formalization.ExpSum.VonMangoldtSqrt
+public import Formalization.LFunctions.Siegel
+public import Formalization.LFunctions.SingularSeriesAverage
+public import Formalization.LFunctions.ZeroDensity
+public import Formalization.LFunctions.ZeroFreeApprox
+public import Formalization.Main
+public import Formalization.Modular.Basic
+public import Formalization.Modular.HExpansion
+public import Formalization.Modular.HSeries
+public import Formalization.Modular.HeckeFaber
+public import Formalization.Modular.QSeries
+public import Formalization.Modular.RemarkTwo
+public import Formalization.Modular.Transformation
+public import Formalization.Parity.Admissible
+public import Formalization.Parity.CoeffEleven
+public import Formalization.Parity.CoeffElevenCriterion
+public import Formalization.Parity.CoeffFive
+public import Formalization.Parity.Congruences
+public import Formalization.Parity.FaberSymmetry
+public import Formalization.Parity.RemarkThree
+public import Formalization.Parity.Series
+public import Formalization.Parity.Trace
+public import Formalization.Partition.Basic
+public import Formalization.QuadraticField.EpsteinZeta
+public import Formalization.QuadraticField.PrimesThreeEight
+public import Formalization.Series.Faber
+public import Formalization.Series.Laurent
+public import Formalization.Sieve.KroneckerProduct
+public import Formalization.Sieve.SquareTranslates
+public import Formalization.Tauberian.WienerIkehara
+
+/-!
+# New lower bounds for even and odd values of the partition function
+
+Root module of the formalization; it imports every module of the library.
+-/
+
+name = "formalization"
+defaultTargets = ["Formalization"]
+platformIndependent = true
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.34.0"
+
+[[lean_lib]]
+name = "Formalization"
+leanOptions = { autoImplicit = false, weak.linter.mathlibStandardSet = true }
+
+{
+  "fixedToolchain": false,
+  "lakeDir": ".lake",
+  "name": "formalization",
+  "packages": [
+    {
+      "configFile": "lakefile.lean",
+      "inherited": false,
+      "inputRev": "v4.34.0",
+      "manifestFile": "lake-manifest.json",
+      "name": "mathlib",
+      "rev": "5ed2965256430c3649e86755f9576b54eca72435",
+      "scope": "",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/mathlib4.git"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "main",
+      "manifestFile": "lake-manifest.json",
+      "name": "plausible",
+      "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/plausible"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "main",
+      "manifestFile": "lake-manifest.json",
+      "name": "LeanSearchClient",
+      "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/LeanSearchClient"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "main",
+      "manifestFile": "lake-manifest.json",
+      "name": "importGraph",
+      "rev": "e928b72544873815af278d38681b31c0293588e3",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/import-graph"
+    },
+    {
+      "configFile": "lakefile.lean",
+      "inherited": true,
+      "inputRev": "main",
+      "manifestFile": "lake-manifest.json",
+      "name": "proofwidgets",
+      "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/ProofWidgets4"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "master",
+      "manifestFile": "lake-manifest.json",
+      "name": "aesop",
+      "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/aesop"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "master",
+      "manifestFile": "lake-manifest.json",
+      "name": "Qq",
+      "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/quote4"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "main",
+      "manifestFile": "lake-manifest.json",
+      "name": "batteries",
+      "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "scope": "leanprover-community",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover-community/batteries"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "v4.34.0",
+      "manifestFile": "lake-manifest.json",
+      "name": "Cli",
+      "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+      "scope": "leanprover",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/leanprover/lean4-cli"
+    }
+  ],
+  "packagesDir": ".lake/packages",
+  "version": "1.2.0"
+}
+
+leanprover/lean4:v4.34.0
+
+# New Lower Bounds for Even and Odd Values of the Partition Function
+
+**Assembled by AxiomProver.**
+
+Lean formalization of Liuquan Wang's *New Lower Bounds for Even and Odd Values of the Partition
+Function* [Wang], including the cited literature results it uses.
+
+## Main results
+
+* **Theorem 1.1**, `Formalization.min_oddPartitionCount_evenPartitionCount_ge`: there is `c > 0`
+  with `min {N_odd(X), N_even(X)} ≥ c X^{3/4} / (log X log log X)` for all large `X`.
+* **Corollary**, `Formalization.oddPartitionCount_evenPartitionCount_ge_rpow`: for every `ε > 0`,
+  `N_odd(X)` and `N_even(X)` are `≫ X^{3/4 - ε}`.
+* **Remark 4**, `Formalization.min_oddPartitionCount_evenPartitionCount_ge_weak`:
+  `min {N_odd(X), N_even(X)} ≫ X^{3/4} / (log X)²`.
+* **Remark 2**: `H(z)³ = j(3z)` with `j = E₄³/Δ = q⁻¹ + 744 + 196884 q + ⋯`
+  (`Formalization.heckeH_pow_three_eq_kleinJ`); every holomorphic cube root of `j(3z)` is `ζH`
+  with `ζ³ = 1` (`Formalization.eq_rootOfUnity_mul_heckeH_of_pow_three_eq`), and `H` is the one
+  normalized by `q⁻¹ + O(q)` (`Formalization.heckeHRootSeries_normalized_iff`,
+  `Formalization.heckeH_remainder_isBigO`), the McKay–Thompson series of class 3C of
+  Conway–Norton. The Faber polynomials of [BKM, p. 24] are `X`, `X²`, `X³ − 744`, `X⁴ − 992 X`,
+  `X⁵ − 1240 X²`, `X⁶ − 1488 X³ + 159768` (`Formalization.faberPoly_hSeries_one` to `_six`).
+* **Remark 3**: every argument in (3.3) and (3.4) is a positive integer
+  (`Formalization.partitionArguments_positive_integers`), and the examples give an even value
+  among `p(282), p(287), p(3)` and an odd value among `p(148), p(128)`
+  (`Formalization.partitionCount_282_287_3_one_even`, `Formalization.partitionCount_148_128_one_odd`).
+* Lemmas 2.1–2.3, 3.3 and 3.5, Remark 1, and Propositions 3.1, 3.4 and 3.6.
+
+## Cited results
+
+| Manuscript input | Lean |
+|---|---|
+| Weyl's criterion [Weyl] | `Formalization.weylCriterion` |
+| PNT in arithmetic progressions [Davenport] | `Formalization.primeNumberTheoremAP` |
+| Lemma 3.2 = [BKMST, Theorem 2.1], for `ξ(x) = α x^{1/2} + β x`, `β ∈ ℚ` | `Formalization.sqrtPrimeEquidistributed` |
+| Lemma 3.7 = [BGS, Theorem 2] | `Formalization.primesTranslatedSquaresBound` |
+| [CMM, Proposition 6.1], `α₅ = C⁵` | `Formalization.etaCubeEightPowFiveCoeffParity` |
+| [CMM, Corollary 6.3], `n = 11`, density `1/16` | `Formalization.etaCubeEightPowElevenDensityPos` |
+
+Their proofs use a Wiener–Ikehara theorem, van der Corput and Vaughan estimates
+(`Formalization/ExpSum`), a Selberg `Λ²` sieve, Siegel's theorem, a zero-density estimate, short
+Euler products [GS, Lemma 2.1], Jacobi's identity modulo `2`, and Hecke `L`-functions of
+`ℚ(√-6)` with Epstein zeta functions. The modularity of `H` on `Γ₀(9)` is proved from the
+transformation laws of `η` and `E₄`.
+
+## Build
+
+```
+lake exe cache get
+lake build
+```
+
+References are in [references.bib](references.bib).
+
+% Canonical bibliography with stable citation keys.
+
+@book{Korevaar,
+  author    = {Jacob Korevaar},
+  title     = {Tauberian Theory: A Century of Developments},
+  series    = {Grundlehren der mathematischen Wissenschaften},
+  volume    = {329},
+  publisher = {Springer},
+  year      = {2004},
+  doi       = {10.1007/978-3-662-10225-1},
+  note      = {Chapter III, Section 4: the Wiener--Ikehara theorem}
+}
+
+@book{Bombieri,
+  author    = {Enrico Bombieri},
+  title     = {Le grand crible dans la théorie analytique des nombres},
+  series    = {Astérisque},
+  number    = {18},
+  publisher = {Société mathématique de France},
+  year      = {1974},
+  url       = {https://www.numdam.org/item/AST_1987__18__1_0/},
+  note      = {Second edition 1987; Théorème 20 is the zero-density source cited in BGS, Section 3}
+}
+
+@book{Cox,
+  author    = {David A. Cox},
+  title     = {Primes of the Form $x^2 + ny^2$: Fermat, Class Field Theory, and Complex Multiplication},
+  edition   = {Second},
+  publisher = {John Wiley \& Sons},
+  year      = {2013},
+  doi       = {10.1002/9781118400722},
+  note      = {Theorem 9.12}
+}
+
+@article{Hecke1918,
+  author  = {Erich Hecke},
+  title   = {Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen},
+  journal = {Mathematische Zeitschrift},
+  volume  = {1},
+  year    = {1918},
+  pages   = {357--376}
+}
+
+@article{Hecke1920,
+  author  = {Erich Hecke},
+  title   = {Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen. Zweite Mitteilung},
+  journal = {Mathematische Zeitschrift},
+  volume  = {6},
+  year    = {1920},
+  pages   = {11--51},
+  url     = {https://geodesic.mathdoc.fr/item/MZ_1920__6_167556/}
+}
+
+@article{Epstein1903,
+  author  = {Paul Epstein},
+  title   = {Zur Theorie allgemeiner Zetafunctionen},
+  journal = {Mathematische Annalen},
+  volume  = {56},
+  year    = {1903},
+  pages   = {615--644}
+}
+
+@unpublished{Wang,
+  author = {Liuquan Wang},
+  title  = {New Lower Bounds for Even and Odd Values of the Partition Function},
+  note   = {Revised manuscript dated November 6, 2026 (submitted TeX source); the formalized work}
+}
+
+@article{BGS,
+  author  = {Joël Bellaïche and Ben Green and Kannan Soundararajan},
+  title   = {Nonzero coefficients of half-integral weight modular forms mod $\ell$},
+  journal = {Research in the Mathematical Sciences},
+  volume  = {5},
+  year    = {2018},
+  pages   = {Paper No. 6},
+  eprint  = {1704.07440},
+  archivePrefix = {arXiv},
+  note    = {Version used: arXiv:1704.07440v1 (Theorem 2 inspected)}
+}
+
+@article{BKMST,
+  author  = {Vitaly Bergelson and Grigori Kolesnik and Manfred Madritsch and Younghwan Son and Robert Tichy},
+  title   = {Uniform distribution of prime powers and sets of recurrence and van der {C}orput sets in $\mathbb{Z}^k$},
+  journal = {Israel Journal of Mathematics},
+  volume  = {201},
+  year    = {2014},
+  pages   = {729--760},
+  eprint  = {1304.4641},
+  archivePrefix = {arXiv},
+  note    = {Version used: arXiv:1304.4641v4 (Theorem 2.1 inspected)}
+}
+
+@article{CMM,
+  author  = {Steven Charlton and Lukas Mauth and Anna Medvedovsky},
+  title   = {On the parity of coefficients of eta powers},
+  journal = {Research in the Mathematical Sciences},
+  volume  = {12},
+  year    = {2025},
+  pages   = {Paper No. 56},
+  eprint  = {2411.17638},
+  archivePrefix = {arXiv},
+  note    = {Version used: arXiv:2411.17638v1 (Definition 4.1, Proposition 6.1, Corollary 6.3 inspected)}
+}
+
+@article{CH,
+  author  = {C. J. Cummins and N. S. Haghighi},
+  title   = {On {F}ourier coefficients of modular forms},
+  journal = {Bulletin of the Australian Mathematical Society},
+  volume  = {83},
+  year    = {2011},
+  pages   = {50--62},
+  note    = {Not independently retrieved; metadata from the manuscript}
+}
+
+@book{Davenport,
+  author    = {Harold Davenport},
+  title     = {Multiplicative Number Theory},
+  edition   = {Third},
+  series    = {Graduate Texts in Mathematics},
+  volume    = {74},
+  publisher = {Springer},
+  year      = {2000},
+  note      = {Revised by H. L. Montgomery. Not independently retrieved}
+}
+
+@book{Ono-book,
+  author    = {Ken Ono},
+  title     = {The Web of Modularity: Arithmetic of the Coefficients of Modular Forms and $q$-Series},
+  series    = {CBMS Regional Conference Series in Mathematics},
+  volume    = {102},
+  publisher = {American Mathematical Society},
+  year      = {2004},
+  note      = {Not independently retrieved; metadata from the manuscript}
+}
+
+@article{Weyl,
+  author  = {Hermann Weyl},
+  title   = {{\"U}ber die {G}leichverteilung von {Z}ahlen mod. {E}ins},
+  journal = {Mathematische Annalen},
+  volume  = {77},
+  year    = {1916},
+  pages   = {313--352},
+  note    = {Not independently retrieved; metadata from the manuscript}
+}
+
+@article{BKM,
+  author  = {Eiichi Bannai and Koji Kojima and Tsuyoshi Miezaki},
+  title   = {On the zeros of {H}ecke-type {F}aber polynomials},
+  journal = {Kyushu Journal of Mathematics},
+  volume  = {62},
+  year    = {2008},
+  pages   = {15--61},
+  doi     = {10.2206/kyushujm.62.15},
+  url     = {https://www.jstage.jst.go.jp/article/kyushujm/62/1/62_1_15/_pdf},
+  note    = {p. 24: the Faber polynomials of the class 3C series}
+}
+
+@article{GS,
+  author  = {Andrew Granville and Kannan Soundararajan},
+  title   = {The distribution of values of {$L(1,\chi_d)$}},
+  journal = {Geometric and Functional Analysis},
+  volume  = {13},
+  year    = {2003},
+  pages   = {992--1028},
+  note    = {Not independently retrieved; cited as [10] in BGS for Lemma 2.1}
+}
+
+@book{Montgomery,
+  author    = {Hugh L. Montgomery},
+  title     = {Topics in Multiplicative Number Theory},
+  series    = {Lecture Notes in Mathematics},
+  volume    = {227},
+  publisher = {Springer},
+  year      = {1971},
+  note      = {Not independently retrieved}
+}
+
+@article{CN,
+  author  = {John H. Conway and Simon P. Norton},
+  title   = {Monstrous moonshine},
+  journal = {Bulletin of the London Mathematical Society},
+  volume  = {11},
+  number  = {3},
+  year    = {1979},
+  pages   = {308--339},
+  doi     = {10.1112/blms/11.3.308},
+  note    = {Table 3: the McKay--Thompson series of class 3C}
+}
+
+.lake/
